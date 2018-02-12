@@ -42,6 +42,11 @@ class User implements UserInterface, \Serializable
      */
     private $apiKey;
 
+    /**
+     * @ORM\Column(type="json", options={"default": "{}"})
+     */
+    private $roles = [];
+
     public function __construct()
     {
         $this->isActive = true;
@@ -88,6 +93,14 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * @param mixed $roles
+     */
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+    /**
      * @return mixed
      */
     public function getUsername()
@@ -127,9 +140,12 @@ class User implements UserInterface, \Serializable
         return $this->apiKey;
     }
 
+    /**
+     * @return mixed
+     */
     public function getRoles()
     {
-        return ['ROLE_ADMIN', 'ROLE_USER', 'ROLE_API_USER']; // Hard code roles for all; for now of course
+        return $this->roles;
     }
 
     /**
