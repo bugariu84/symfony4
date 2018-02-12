@@ -9,7 +9,24 @@
 namespace App\Controller;
 
 
-class AdminController
-{
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class AdminController
+ *
+ * @Route("/admin")
+ *
+ * @package App\Controller
+ */
+class AdminController extends Controller
+{
+    /**
+     * @Route("/", name="admin_homepage")
+     */
+    public function index()
+    {
+        return new Response("Admin homepage");
+    }
 }
