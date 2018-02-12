@@ -9,13 +9,15 @@
 
 ## Install:
 
-1. git clone git@github.com:bugariu84/symfony4.git
-2. composer install
-
+1. _git clone git@github.com:bugariu84/symfony4.git_
+2. _composer install_
+3. _./bin/console _doctrine:database:create_
+4. _./bin/console doctrine:migrations:migrate_
 
 ### TODO:
-1. Set up Encore, sass(or less) and js
-2. install packages:
+1. Add fixture for dummy users
+2. Set up Encore, sass(or less), js and maybe some bootstrap
+3. install packages:
     * profiler –dev
     * sec-checker --dev
     * debug --dev
