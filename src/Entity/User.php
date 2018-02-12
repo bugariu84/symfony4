@@ -21,18 +21,26 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=25, nullable=false)
      */
     private $username;
+
     /**
      * @ORM\Column(type="string", length=64, nullable=false)
      */
     private $password;
+
     /**
      * @ORM\Column(type="string", length=60, unique=true, nullable=false)
      */
     private $email;
+
     /**
      * @ORM\Column(type="boolean")
      */
     private $isActive;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $apiKey;
 
     public function __construct()
     {
@@ -72,6 +80,14 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * @param mixed $apiKey
+     */
+    public function setApiKey($apiKey): void
+    {
+        $this->apiKey = $apiKey;
+    }
+
+    /**
      * @return mixed
      */
     public function getUsername()
@@ -103,9 +119,17 @@ class User implements UserInterface, \Serializable
         return $this->isActive;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
     public function getRoles()
     {
-        return ['ROLE_ADMIN', 'ROLE_USER']; // Hard code roles for all; for now of course
+        return ['ROLE_ADMIN', 'ROLE_USER', 'ROLE_API_USER']; // Hard code roles for all; for now of course
     }
 
     /**
@@ -159,11 +183,10 @@ class User implements UserInterface, \Serializable
     public function unserialize($serialized)
     {
         list(
-                $this->id,
-                $this->username,
-                $this->password,
-                $this->isActive
-            ) = unserialize($serialized)
-        ;
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->isActive
+            ) = unserialize($serialized);
     }
 }
