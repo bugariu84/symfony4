@@ -13,6 +13,7 @@
 2. _composer install_
 3. _./bin/console doctrine:database:create_
 4. _./bin/console doctrine:migrations:migrate_
+5. _./bin/console doctrine:fixture:load_
 
 ### TODO:
 1. ~~Add fixture for dummy users~~
