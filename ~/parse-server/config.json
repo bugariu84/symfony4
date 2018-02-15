@@ -1,7 +1,0 @@
-{
-  "appId": "",
-  "masterKey": "",
-  "appName": "symfony4-test",
-  "cloud": "./cloud/main",
-  "databaseURI": ""
-}
