@@ -1,0 +1,10 @@
+{
+  "name": "symfony4-test",
+  "description": "parse-server for symfony4-test",
+  "scripts": {
+    "start": "parse-server config.json"
+  },
+  "dependencies": {
+    "parse-server": "^2.0.0"
+  }
+}
