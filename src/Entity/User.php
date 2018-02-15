@@ -116,7 +116,7 @@ class User implements UserInterface, \Serializable
      */
     public function setApiKey($apiKey): void
     {
-        $this->apiKey = md5($apiKey . '@' . $this->getEmail() . '@' . $this->getUsername());
+        $this->apiKey = $apiKey;
     }
 
     /**
