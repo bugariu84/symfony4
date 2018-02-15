@@ -37,8 +37,13 @@ security:
 
         main:
           anonymous: true
-          http_basic: ~
           provider: our_db_provider
+          form_login:
+            login_path: login
+            check_path: login
+          logout:
+            path: /logout
+            target: /
 
           # activate different ways to authenticate
 
@@ -52,5 +57,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
       - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/user/*, roles: [ROLE_USER, ROLE_ADMIN] }
       - { path: ^/admin, roles: ROLE_ADMIN }
       - { path: ^/api/*, roles: ROLE_API_USER }
