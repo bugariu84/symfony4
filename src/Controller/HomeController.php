@@ -19,6 +19,6 @@ class HomeController extends Controller
      */
     public function homepage()
     {
-        return new Response("Homepage 2 xxx");
+        return new Response("Homepage 2");
     }
 }

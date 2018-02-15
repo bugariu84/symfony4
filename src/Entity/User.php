@@ -43,7 +43,7 @@ class User implements UserInterface, \Serializable
     private $apiKey;
 
     /**
-     * @ORM\Column(type="json", options={"default": "{}"})
+     * @ORM\Column(type="json")
      */
     private $roles = [];
 
