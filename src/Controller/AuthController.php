@@ -21,6 +21,11 @@ class AuthController extends Controller
      */
     public function login(Request $request, AuthenticationUtils $authUtils)
     {
+
+        if ($this->getUser()) {
+            return $this->redirectToRoute('homepage');
+        }
+
         // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();
 
@@ -28,7 +33,8 @@ class AuthController extends Controller
         $lastUsername = $authUtils->getLastUsername();
 
         // Get login form
-        $form = $this->createFormBuilder(LoginFormType::class)->getForm();
+        $form = $this->createForm(LoginFormType::class, ["_username" => $lastUsername]);
+        $form->handleRequest($request);
 
         return $this->render('auth/login.html.twig', [
             'last_username' => $lastUsername,
