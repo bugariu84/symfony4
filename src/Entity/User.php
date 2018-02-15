@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -19,16 +21,36 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=25, nullable=false)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 25,
+     *      minMessage = "Username must be at least {{ limit }} characters",
+     *      maxMessage = "Username can have a maximum of {{ limit }} characters"
+     * )
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 25,
+     *      minMessage = "Password must have min {{ limit }} characters",
+     *      maxMessage = "Password must have max {{ limit }} characters"
+     * )
+     *
+     * @TODO: create a custom password constraint
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true, nullable=false)
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     * )
      */
     private $email;
 
@@ -50,6 +72,11 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
+        $this->apiKey = md5($this->serialize());
+
+        if (empty($this->roles)) {
+            $this->roles = ['ROLE_USER'];
+        }
     }
 
     /**
@@ -89,7 +116,7 @@ class User implements UserInterface, \Serializable
      */
     public function setApiKey($apiKey): void
     {
-        $this->apiKey = $apiKey;
+        $this->apiKey = md5($apiKey . '@' . $this->getEmail() . '@' . $this->getUsername());
     }
 
     /**

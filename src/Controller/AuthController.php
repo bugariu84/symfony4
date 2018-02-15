@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\LoginFormType;
+use App\Form\LoginType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +33,7 @@ class AuthController extends Controller
         $lastUsername = $authUtils->getLastUsername();
 
         // Get login form
-        $form = $this->createForm(LoginFormType::class, ["_username" => $lastUsername]);
+        $form = $this->createForm(LoginType::class, ["_username" => $lastUsername]);
         $form->handleRequest($request);
 
         return $this->render('auth/login.html.twig', [

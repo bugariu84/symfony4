@@ -7,6 +7,7 @@
     <ul style="float: right;">
         {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
             <li><a href="{{ path('login') }}">Login</a></li>
+            <li><a href="{{ path('user_register') }}">Register</a></li>
         {% endif %}
 
         {% if is_granted("IS_AUTHENTICATED_FULLY") %}
