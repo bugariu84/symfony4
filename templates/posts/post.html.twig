@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block title %}Post - {{ post.title }}{% endblock %}
+{% block body %}
+    {% include 'posts/partials/nav.html.twig' with {'post': post} %}
+    <h1>Post {{ post.title }}</h1>
+
+    <div>
+        {{ post.body }}
+    </div>
+{% endblock %}

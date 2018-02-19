@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -69,8 +70,14 @@ class User implements UserInterface, \Serializable
      */
     private $roles = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user")
+     */
+    private $posts;
+
     public function __construct()
     {
+        $this->posts = new ArrayCollection();
         $this->isActive = true;
         $this->apiKey = md5($this->serialize());
 
@@ -154,7 +161,7 @@ class User implements UserInterface, \Serializable
     /**
      * @return mixed
      */
-    public function getisActive()
+    public function getIsActive()
     {
         return $this->isActive;
     }
@@ -173,6 +180,14 @@ class User implements UserInterface, \Serializable
     public function getRoles()
     {
         return $this->roles;
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPosts()
+    {
+        return $this->posts;
     }
 
     /**

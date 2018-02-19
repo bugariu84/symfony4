@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
+{% block title %}Posts {% endblock %}
 {% block body %}
-    <h1>All posts</h1>
+    {% include 'posts/partials/nav.html.twig' %}
+    <h1>Display {{ user.username }} posts</h1>
 
     {% for post in posts %}
         <div class="post">
@@ -10,11 +12,11 @@
                 </a>
             </p>
             <div class="body">
-                {{ post.body }}
+                {{ post.body|raw }}
             </div>
             <p>Created: {{ post.createdAt.format('Y-m-d H:i:s') }}</p>
             <p>by: {{ post.user.username }}</p>
         </div>
-        <hr />
     {% endfor %}
+
 {% endblock %}
