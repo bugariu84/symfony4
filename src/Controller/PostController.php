@@ -8,9 +8,9 @@
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
+use App\Repository\PostRepository;
+use App\Services\PostService;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -22,14 +22,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostController extends AbstractApiController
 {
     /**
-     * @Route("/list", name="api_post_list")
-     * @param Request $request
-     * @param EntityManagerInterface $em
+     * Get latest post
      *
-     * @return JsonResponse
+     * @Route("/list", name="api_post_list")
+     * @param PostRepository $postRepository
+     * @param PostService $postService
+     * @return Response
      */
-    public function index(Request $request, EntityManagerInterface $em)
+    public function index(PostRepository $postRepository, PostService $postService) : Response
     {
-        return new JsonResponse(['posts' => $em->getRepository('App:Post')->getAll()]);
+        $pager = $postRepository->findLatest();
+        $posts = $postService->transform($pager);
+        $data = [
+            'total' => $pager->getNbResults(),
+            'count' => count($posts),
+            'list' => $posts
+        ];
+
+        return $this->jsonResponse($data);
     }
 }

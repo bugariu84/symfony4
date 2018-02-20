@@ -137,6 +137,14 @@ class User implements UserInterface, \Serializable
     /**
      * @return mixed
      */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getUsername()
     {
         return $this->username;

@@ -30,7 +30,7 @@ class PostController extends AbstractApiController
     public function index(Request $request, EntityManagerInterface $em)
     {
         $posts = $em->getRepository('App:Post')->getUserPosts($this->getUser());
-        dump($posts);
-        return new JsonResponse(['list' => json_encode($posts)]);
+
+        return $this->jsonResponse($posts);
     }
 }

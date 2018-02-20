@@ -5,7 +5,9 @@ namespace App\Repository;
 use App\Entity\Post;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Query;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class PostRepository extends ServiceEntityRepository
@@ -33,16 +35,28 @@ class PostRepository extends ServiceEntityRepository
             ->getArrayResult();
     }
 
-    /*
-    public function findBySomething($value)
+    /**
+     * @param int $page
+     * @return Pagerfanta
+     */
+    public function findLatest(int $page = 1) : Pagerfanta
     {
-        return $this->createQueryBuilder('p')
-            ->where('p.something = :value')->setParameter('value', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $queryBuilder = $this
+            ->createQueryBuilder('posts')
+            ->leftJoin('posts.user', 'users')
+            ->where('posts.createdAt <= :now')
+            ->setParameter('now', new \DateTime())
         ;
+
+        return $this->createPaginator($queryBuilder->getQuery(), $page);
     }
-    */
+
+    public function createPaginator(Query $query, int $page) : Pagerfanta
+    {
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($query));
+        $paginator->setMaxPerPage(Post::NUM_ITEMS);
+        $paginator->setCurrentPage($page);
+
+        return $paginator;
+    }
 }

@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Post
 {
+    const NUM_ITEMS = 10;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -16,7 +18,7 @@ class Post
      */
     private $id;
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
     private $user;
@@ -56,7 +58,7 @@ class Post
         return $this->id;
     }
     /**
-     * @return mixed
+     * @return \DateTime
      */
     public function getUser() : User
     {
@@ -77,7 +79,7 @@ class Post
         return $this->title;
     }
     /**
-     * @return mixed
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
