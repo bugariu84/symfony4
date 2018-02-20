@@ -14,36 +14,24 @@ security:
           class: App\Entity\User
           property: apiKey
 
-      in_memory:
-        memory:
-          users:
-            user:
-              password: $2y$12$VmaWuxVsn6GURyQCh.HppOBKYsHfdk6LbWGlm1o/YV75VEz/vHT8W # 123
-              roles: "ROLE_USER"
-            admin:
-              password: $2y$12$qkZiGvjdiDy8wfURzfxdyu4SYZ2ApB.jY8sYuysD4V9rPdGjxMCYW # admin
-              roles: "ROLE_ADMIN"
-
     firewalls:
-        api:
-          pattern: ^/api/
-          provider: api_db_provider
-          guard:
-            authenticators:
-              - App\Security\TokenAuthenticator
         dev:
           pattern: ^/(_(profiler|wdt)|css|images|js)/
           security: false
 
         main:
           anonymous: true
-          provider: our_db_provider
-          form_login:
-            login_path: login
-            check_path: login
-          logout:
-            path: /logout
-            target: /
+          provider: api_db_provider
+          guard:
+            authenticators:
+              - App\Security\TokenAuthenticator
+#          provider: our_db_provider
+#          form_login:
+#            login_path: login
+#            check_path: login
+#          logout:
+#            path: /logout
+#            target: /
 
           # activate different ways to authenticate
 
@@ -57,6 +45,5 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
       - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-      - { path: ^/user/*, roles: [ROLE_USER, ROLE_ADMIN] }
-      - { path: ^/admin, roles: ROLE_ADMIN }
+      - { path: ^/api/post/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
       - { path: ^/api/*, roles: ROLE_API_USER }

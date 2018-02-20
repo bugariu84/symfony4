@@ -112,6 +112,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     {
         $apiKey = $credentials['token'];
 
+
         if (null === $apiKey) {
             return;
         }

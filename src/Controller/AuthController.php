@@ -2,45 +2,39 @@
 
 namespace App\Controller;
 
-use App\Form\LoginType;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class AuthController extends Controller
+class AuthController extends AbstractApiController
 {
     /**
-     * @Route("/login", name="login")
+     * @Route("/login", name="login", methods={"POST"})
      *
      * @param Request $request
      *
-     * @param AuthenticationUtils $authUtils
+     * @param EntityManagerInterface $em
+     * @param UserPasswordEncoderInterface $encoder
      * @return Response
      */
-    public function login(Request $request, AuthenticationUtils $authUtils)
+    public function login(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
 
-        if ($this->getUser()) {
-            return $this->redirectToRoute('homepage');
+        $user = $em->getRepository('App:User')->findOneBy(['email' => $email]);
+        $isPasswordValid = $encoder->isPasswordValid($user, $password);
+
+        if ($isPasswordValid) {
+            return new JsonResponse(['success' => true, 'user' => $user->getApiKey()]);
         }
 
-        // get the login error if there is one
-        $error = $authUtils->getLastAuthenticationError();
-
-        // last username entered by the user
-        $lastUsername = $authUtils->getLastUsername();
-
-        // Get login form
-        $form = $this->createForm(LoginType::class, ["_username" => $lastUsername]);
-        $form->handleRequest($request);
-
-        return $this->render('auth/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error'         => $error,
-            'form'          => $form->createView()
-        ]);
+        return new JsonResponse(['success' => false, 'params' => [
+            'email'
+        ]]);
     }
 
     /**
