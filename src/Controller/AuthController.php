@@ -18,7 +18,7 @@ class AuthController extends AbstractApiController
      *
      * @param EntityManagerInterface $em
      * @param UserPasswordEncoderInterface $encoder
-     * @return Response
+     * @return JsonResponse
      */
     public function login(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
     {
