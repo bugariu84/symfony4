@@ -2,6 +2,11 @@ require('../scss/app.scss');
 
 import React from 'react';
 import ReactDom from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import reducers from './reducers    '
+
+const createStoreWithMiddleware = applyMiddleware()(createStore);
 
 class App extends React.Component {
     constructor(props) {
@@ -21,4 +26,8 @@ class App extends React.Component {
     }
 }
 
-ReactDom.render(<App/>, document.getElementById('root'));
+ReactDOM.render(
+    <Provider store={createStoreWithMiddleware(reducers)}>
+        <App />
+    </Provider>
+    , document.querySelector('#root'));
