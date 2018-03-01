@@ -1,10 +1,14 @@
 require('../scss/app.scss');
 
 import React from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import reducers from './reducers    '
+import reducers from './reducers';
+
+import PostList from './containers/posts/post-list';
+import PostDetails from './containers/posts/post-details';
+import Search from './containers/search';
 
 const createStoreWithMiddleware = applyMiddleware()(createStore);
 
@@ -13,14 +17,18 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            message: "welcomeate-asi"
+            message: "welcome mai friend"
         };
     }
 
     render() {
         return (
             <div>
-                {this.state.message}
+                <div className='col-sm-4'>
+                    <Search/>
+                    <PostList />
+                </div>
+                <PostDetails />
             </div>
         );
     }
