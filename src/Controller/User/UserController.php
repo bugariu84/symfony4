@@ -6,6 +6,8 @@
  * Time: 11:55
  */
 
+namespace App\Controller\User;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use \Symfony\Component\Routing\Annotation\Route;
 
