@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block title %}Posts {% endblock %}
+{% block body %}
+    {% include 'posts/partials/nav.html.twig' %}
+    <h1>Display {{ user.username }} posts</h1>
+
+    {% for post in posts %}
+        <div class="post">
+            <p class="title">
+                <a href="{{ path('post_item', {id: post.id}) }}">
+                    {{ post.title }}
+                </a>
+            </p>
+            <div class="body">
+                {{ post.body|raw }}
+            </div>
+            <p>Created: {{ post.createdAt.format('Y-m-d H:i:s') }}</p>
+            <p>by: {{ post.user.username }}</p>
+        </div>
+    {% endfor %}
+
+{% endblock %}

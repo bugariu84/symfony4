@@ -6,39 +6,45 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Post
 {
-    const NUM_ITEMS = 10;
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
+
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
      * @ORM\JoinColumn(nullable=true)
      */
     private $user;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $title;
+
     /**
      * @ORM\Column(type="text", nullable=false)
      */
     private $body;
+
     /**
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $createdAt;
+
     /**
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $updatedAt;
+
     // TODO: add categories and user relations
+
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -46,10 +52,12 @@ class Post
     public function __construct()
     {
         $this->updatedAt = new \DateTime('now');
+
         if ($this->createdAt === null) {
             $this->createdAt = new \DateTime('now');
         }
     }
+
     /**
      * @return mixed
      */
@@ -57,13 +65,15 @@ class Post
     {
         return $this->id;
     }
+
     /**
-     * @return \DateTime
+     * @return mixed
      */
     public function getUser() : User
     {
         return $this->user;
     }
+
     /**
      * @param mixed $user
      */
@@ -71,6 +81,7 @@ class Post
     {
         $this->user = $user;
     }
+
     /**
      * @return mixed
      */
@@ -78,13 +89,15 @@ class Post
     {
         return $this->title;
     }
+
     /**
-     * @return \DateTime
+     * @return mixed
      */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
+
     /**
      * @return mixed
      */
@@ -92,6 +105,7 @@ class Post
     {
         return $this->updatedAt;
     }
+
     /**
      * @param mixed $title
      */
@@ -99,6 +113,7 @@ class Post
     {
         $this->title = $title;
     }
+
     /**
      * @return mixed
      */
@@ -106,6 +121,7 @@ class Post
     {
         return $this->body;
     }
+
     /**
      * @param mixed $body
      */
@@ -113,5 +129,5 @@ class Post
     {
         $this->body = $body;
     }
-}
 
+}

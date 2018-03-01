@@ -1,36 +1,46 @@
 <?php
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use \Symfony\Component\Routing\Annotation\Route;
+
 /**
  * Created by PhpStorm.
  * User: bbugariu
  * Date: 19.02.2018
- * Time: 20:54
+ * Time: 17:31
  */
-
-namespace App\Controller\User;
-
-use App\Controller\AbstractApiController;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class PostController
  *
- * @Route("/api/user/post")
+ * @Route("user/posts")
  */
-class PostController extends AbstractApiController
+class PostController extends AbstractController
 {
     /**
-     * @Route("/list", name="api_user_post_list")
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @return JsonResponse
+     * TODO: add user access posts here
+     * create, view his posts, update
+     *
+     * Add a manager to be used in api controller
      */
-    public function index(Request $request, EntityManagerInterface $em)
-    {
-        $posts = $em->getRepository('App:Post')->getUserPosts($this->getUser());
 
-        return $this->jsonResponse($posts);
-    }
+    /**
+     * List all user posts
+     */
+    public function index() {}
+
+    /**
+     * Create a new post
+     */
+    public function create() {}
+
+    /**
+     * Edit a post
+     */
+    public function edit() {}
+
+    /**
+     * Remove a post
+     */
+    public function remove() {}
 }

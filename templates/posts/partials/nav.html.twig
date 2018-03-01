@@ -1,0 +1,8 @@
+<ul>
+    <li><a href="{{ path('post_create') }}">Create</a></li>
+
+    {% if post is defined %}
+        <li><a href="{{ path('post_edit', {id: post.id}) }}">Edit</a></li>
+    {% endif %}
+
+</ul>
